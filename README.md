@@ -10,6 +10,4 @@ The **ChatBot Application** is a Next.js-based interface for interacting with a 
 - **Message Sending/Receiving**: Users can send and receive messages, each timestamped.
 - **Auto-Scrolling**: The chat window automatically scrolls to display the latest messages.
 
-## Note
-
-Some features are still under uncompleted. I appreciate your understanding and patience!
+Some features are uncompleted. I appreciate your understanding and patience!
