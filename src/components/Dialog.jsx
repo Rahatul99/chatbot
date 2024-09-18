@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as Popover from "@radix-ui/react-popover";
 import { Button } from "@radix-ui/themes";
 import Image from "next/image";
 import "@radix-ui/themes/styles.css";
@@ -16,6 +17,8 @@ const MyDialog = () => {
   ]);
   const [input, setInput] = useState("");
   const messageEndRef = useRef(null);
+  const messageListRef = useRef(null);
+  const [isScrolledUp, setIsScrolledUp] = useState(false);
 
   const handleSend = useCallback(() => {
     if (input.trim()) {
@@ -27,9 +30,35 @@ const MyDialog = () => {
     }
   }, [input]);
 
-  useEffect(() => {
+  // Scroll to bottom logic
+  const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
   }, [messages]);
+
+  // Handle user scrolling up
+  const handleScroll = () => {
+    const messageList = messageListRef.current;
+    if (messageList) {
+      const isAtBottom =
+        messageList.scrollHeight - messageList.scrollTop ===
+        messageList.clientHeight;
+      setIsScrolledUp(!isAtBottom);
+    }
+  };
+
+  useEffect(() => {
+    const messageList = messageListRef.current;
+    if (messageList) {
+      messageList.addEventListener("scroll", handleScroll);
+      return () => {
+        messageList.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -141,6 +170,7 @@ const MyDialog = () => {
 
             {/* Messages */}
             <div
+              ref={messageListRef}
               style={{
                 flex: 1,
                 padding: "10px 24px",
@@ -171,6 +201,50 @@ const MyDialog = () => {
                   style={{ flex: "1", margin: "0", borderColor: "#8AB3F0" }}
                 />
               </div>
+
+              {/* Popover for scroll-to-bottom */}
+              {isScrolledUp && (
+                <Popover.Root data-testid="hello">
+                  <Popover.Trigger asChild>
+                    <Button
+                      style={{
+                        position: "fixed",
+                        bottom: "80px", // Adjust position as needed
+                        right: "30px",
+                        background: "#323232",
+                        color: "#fff",
+                        borderRadius: "50%",
+                        width: "40px",
+                        height: "40px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onClick={scrollToBottom}
+                    >
+                      <Image
+                        src="/assets/chevron-down.svg"
+                        width={16}
+                        height={16}
+                        alt="Scroll Down"
+                      />
+                    </Button>
+                  </Popover.Trigger>
+                  <Popover.Content
+                    side="top"
+                    align="center"
+                    style={{
+                      padding: "8px",
+                      backgroundColor: "#f1f1f1",
+                      borderRadius: "8px",
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                      fontSize: "12px",
+                    }}
+                  >
+                    New messages below
+                  </Popover.Content>
+                </Popover.Root>
+              )}
             </div>
 
             {/* Footer */}
