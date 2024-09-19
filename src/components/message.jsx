@@ -31,7 +31,13 @@ const Message = ({ type, timestamp, text, isLastSentMessage }) => {
       {isReceived ? (
         <>
           {timeInfo}
-          <div style={{ display: "flex", margin: "0 0 17px 24px" }}>
+          <div
+            style={{
+              display: "flex",
+              margin: "0 0 17px 24px",
+              maxWidth: "400px",
+            }}
+          >
             <Image
               src="/assets/avatar.svg"
               width={20}
@@ -97,6 +103,7 @@ const Message = ({ type, timestamp, text, isLastSentMessage }) => {
               fontWeight: "500px",
               marginRight: "24px",
               lineHeight: "12px",
+              maxWidth: "400px",
             }}
           >
             {text}

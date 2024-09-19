@@ -18,7 +18,6 @@ const MyDialog = () => {
   const [input, setInput] = useState("");
   const messageEndRef = useRef(null);
   const messageListRef = useRef(null);
-  const [isScrolledUp, setIsScrolledUp] = useState(false);
 
   const handleSend = useCallback(() => {
     if (input.trim()) {
@@ -29,36 +28,6 @@ const MyDialog = () => {
       setInput("");
     }
   }, [input]);
-
-  // Scroll to bottom logic
-  const scrollToBottom = () => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  // Handle user scrolling up
-  const handleScroll = () => {
-    const messageList = messageListRef.current;
-    if (messageList) {
-      const isAtBottom =
-        messageList.scrollHeight - messageList.scrollTop ===
-        messageList.clientHeight;
-      setIsScrolledUp(!isAtBottom);
-    }
-  };
-
-  useEffect(() => {
-    const messageList = messageListRef.current;
-    if (messageList) {
-      messageList.addEventListener("scroll", handleScroll);
-      return () => {
-        messageList.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, []);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -80,7 +49,7 @@ const MyDialog = () => {
       >
         <Image src="/assets/chat.svg" width={40} height={40} alt="Chat Icon" />
       </Button>
-      <Dialog.Root open={true} onOpenChange={setOpen}>
+      <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Portal>
           <Dialog.Content className="dialog-content">
             {/* Dialog Title */}
@@ -177,8 +146,9 @@ const MyDialog = () => {
               ref={messageListRef}
               style={{
                 flex: 1,
-                padding: "10px 0",
+                padding: "25px 0 10px",
                 overflowY: "auto",
+                position: "relative",
               }}
             >
               {messages.map((msg, index) => {
@@ -198,70 +168,78 @@ const MyDialog = () => {
 
               <div ref={messageEndRef} />
               {/* Popover for scroll-to-bottom */}
-              {isScrolledUp && (
-                <Popover.Root data-testid="hello">
-                  <Popover.Trigger asChild>
+              <Popover.Root>
+                <Popover.Trigger asChild>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "6px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      zIndex: 10,
+                    }}
+                  >
                     <Button
                       style={{
-                        position: "fixed",
-                        bottom: "80px",
-                        right: "30px",
-                        background: "#323232",
-                        color: "#fff",
-                        borderRadius: "50%",
-                        width: "40px",
-                        height: "40px",
+                        background: "#F1F3F5",
+                        color: "#000",
+                        borderRadius: "14px",
+                        width: "135px",
+                        height: "28px",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        padding: "8px",
+                        boxShadow: "0px 1px 4px 0px #00000024",
                       }}
-                      onClick={scrollToBottom}
                     >
                       <Image
-                        src="/assets/chevron-down.svg"
-                        width={16}
-                        height={16}
-                        alt="Scroll Down"
+                        src="/assets/downArrow.svg"
+                        width={12}
+                        height={15}
+                        alt="Down Arrow"
+                      />
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          lineHeight: "12px",
+                          padding: "0 4px",
+                        }}
+                      >
+                        3 new messages
+                      </span>
+                      <Image
+                        src="/assets/cross.svg"
+                        width={7}
+                        height={7}
+                        alt="Down Arrow"
                       />
                     </Button>
-                  </Popover.Trigger>
-                  <Popover.Content
-                    side="top"
-                    align="center"
+                  </div>
+                </Popover.Trigger>
+                <Popover.Content side="top" align="center">
+                  <div
                     style={{
                       padding: "8px",
                       backgroundColor: "#f1f1f1",
                       borderRadius: "8px",
                       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
                       fontSize: "12px",
+                      textAlign: "center",
                     }}
                   >
-                    New messages below
-                  </Popover.Content>
-                </Popover.Root>
-              )}
+                    You have 3 new messages
+                  </div>
+                </Popover.Content>
+              </Popover.Root>
             </div>
 
             {/* Footer */}
-            <div
-              style={{
-                borderRadius: "12px",
-                width: "489px",
-                height: "71px",
-                padding: "8px",
-                margin: "0 24px 12px",
-                backgroundColor: "#EBECEE",
-                display: "flex",
-                flexDirection: "column",
-                position: "relative",
-              }}
-            >
+            <div className="footer-main">
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  // height: "100%",
-                  // padding: "8px",
                   gap: "20px",
                 }}
               >
