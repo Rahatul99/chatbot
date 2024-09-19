@@ -1,19 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400;1,900&display=swap");
 
-
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: "Inter", sans-serif;
 }
-/* Dialog styles */
+
 .dialog-content {
   position: fixed;
+  top: 10vh;
   bottom: 93px;
   right: 99px;
   width: 537px;
-  height: 695px;
+  max-height: 695px;
   background: #f4f6f7;
   border-radius: 24px;
   display: flex;
@@ -28,11 +28,13 @@
   height: 71px;
   padding: 10px 8px;
   margin: 0 24px 12px;
-  background-color: #EBECEE;
+  background-color: #ebecee;
   display: flex;
   flex-direction: column;
   position: relative;
 }
+
+/* Dialog styles */
 @media (max-width: 700px) {
   .dialog-content {
     top: 0;
@@ -42,13 +44,19 @@
     width: 100%;
     height: 100%;
   }
+
+  .chat-button {
+    right: 30px !important;
+    bottom: 30px !important;
+  }
+
   .footer-main {
     border-radius: 12px;
     width: auto;
     height: 71px;
     padding: 8px;
     margin: 0 11px 14px;
-    background-color: #EBECEE;
+    background-color: #ebecee;
     display: flex;
     flex-direction: column;
     position: relative;

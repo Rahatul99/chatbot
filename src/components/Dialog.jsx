@@ -17,7 +17,6 @@ const MyDialog = () => {
   ]);
   const [input, setInput] = useState("");
   const messageEndRef = useRef(null);
-  const messageListRef = useRef(null);
 
   const handleSend = useCallback(() => {
     if (input.trim()) {
@@ -26,6 +25,16 @@ const MyDialog = () => {
         { text: input, type: "sent", timestamp: new Date() },
       ]);
       setInput("");
+      setTimeout(() => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            text: "This is a default reply from the bot.",
+            type: "received",
+            timestamp: new Date(),
+          },
+        ]);
+      }, 500);
     }
   }, [input]);
 
@@ -45,6 +54,7 @@ const MyDialog = () => {
           backgroundColor: "transparent",
           cursor: "pointer",
         }}
+        className="chat-button"
         onClick={() => setOpen(true)}
       >
         <Image src="/assets/chat.svg" width={40} height={40} alt="Chat Icon" />
@@ -143,7 +153,7 @@ const MyDialog = () => {
 
             {/* Messages */}
             <div
-              ref={messageListRef}
+              ref={messageEndRef}
               style={{
                 flex: 1,
                 padding: "25px 0 10px",
