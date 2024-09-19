@@ -78,63 +78,67 @@ const MyDialog = () => {
         }}
         onClick={() => setOpen(true)}
       >
-        <Image
-          src="/assets/chaticon.png"
-          width={40}
-          height={40}
-          alt="Chat Icon"
-        />
+        <Image src="/assets/chat.svg" width={40} height={40} alt="Chat Icon" />
       </Button>
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Root open={true} onOpenChange={setOpen}>
         <Dialog.Portal>
           <Dialog.Content className="dialog-content">
             {/* Dialog Title */}
             <Dialog.Title
               style={{
-                borderBottom: "1px solid #ddd",
-                background: "#f1f1f1",
+                background: "#F4F6F7",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                padding: "16px",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                padding: "16px 23px 17px 24px",
+                height: "55px",
+                borderRadius: "24px 24px 0 0",
+                boxShadow: "0px 1px 4px 0px #00000040",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <div style={{ marginRight: "20px" }}>
-                  <svg
-                    width="20px"
-                    height="20px"
-                    viewBox="0 0 15 15"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M2.5 4C2.22386 4 2 4.22386 2 4.5C2 4.77614 2.22386 5 2.5 5H12.5C12.7761 5 13 4.77614 13 4.5C13 4.22386 12.7761 4 12.5 4H2.5ZM2 7.5C2 7.22386 2.22386 7 2.5 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H2.5C2.22386 8 2 7.77614 2 7.5ZM2 10.5C2 10.2239 2.22386 10 2.5 10H12.5C12.7761 10 13 10.2239 13 10.5C13 10.7761 12.7761 11 12.5 11H2.5C2.22386 11 2 10.7761 2 10.5Z"
-                      fill="currentColor"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src="/assets/breadcumb.svg"
+                  width={14}
+                  height={7}
+                  alt="Chat Icon"
+                  style={{ marginRight: "24px" }}
+                />
                 <Image
                   src="/assets/icon.png"
                   width={13}
-                  height={12}
+                  height={22}
                   alt="Chat Icon"
-                  style={{ marginRight: "10px" }}
+                  style={{ marginRight: "9px" }}
                 />
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    lineHeight: "1",
                   }}
                 >
-                  <h1 style={{ fontWeight: "600px", fontSize: "12px" }}>
+                  <h1
+                    style={{
+                      fontWeight: "600px",
+                      fontSize: "10px",
+                      lineHeight: "12px",
+                    }}
+                  >
                     Kittosoft ChatBot
                   </h1>
-                  <p style={{ fontWeight: "500px", fontSize: "8px" }}>
+                  <p
+                    style={{
+                      fontWeight: "500px",
+                      fontSize: "6px",
+                      lineHeight: "7.5px",
+                    }}
+                  >
                     How can we help?
                   </p>
                 </div>
@@ -160,7 +164,7 @@ const MyDialog = () => {
                     cursor: "pointer",
                     fontSize: "24px",
                     color: "#000",
-                    marginLeft: "10px",
+                    marginLeft: "15px",
                   }}
                 >
                   &times;
@@ -173,35 +177,26 @@ const MyDialog = () => {
               ref={messageListRef}
               style={{
                 flex: 1,
-                padding: "10px 24px",
+                padding: "10px 0",
                 overflowY: "auto",
               }}
             >
-              {messages.map((msg, index) => (
-                <Message
-                  key={index}
-                  type={msg.type}
-                  timestamp={msg.timestamp}
-                  text={msg.text}
-                />
-              ))}
-              <div ref={messageEndRef} />
-              <div
-                style={{
-                  textAlign: "center",
-                  color: "#8AB3F0",
-                  fontSize: "12px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <span style={{ marginRight: "8px" }}>New</span>
-                <hr
-                  style={{ flex: "1", margin: "0", borderColor: "#8AB3F0" }}
-                />
-              </div>
+              {messages.map((msg, index) => {
+                const isLastSentMessage =
+                  msg.type === "sent" &&
+                  index === messages.map((m) => m.type).lastIndexOf("sent");
+                return (
+                  <Message
+                    key={index}
+                    type={msg.type}
+                    timestamp={msg.timestamp}
+                    text={msg.text}
+                    isLastSentMessage={isLastSentMessage}
+                  />
+                );
+              })}
 
+              <div ref={messageEndRef} />
               {/* Popover for scroll-to-bottom */}
               {isScrolledUp && (
                 <Popover.Root data-testid="hello">
@@ -209,7 +204,7 @@ const MyDialog = () => {
                     <Button
                       style={{
                         position: "fixed",
-                        bottom: "80px", // Adjust position as needed
+                        bottom: "80px",
                         right: "30px",
                         background: "#323232",
                         color: "#fff",
@@ -251,9 +246,10 @@ const MyDialog = () => {
             <div
               style={{
                 borderRadius: "12px",
-                height: "100px",
-                paddingBottom: "12px",
-                margin: "0 24px 12px 24px",
+                width: "489px",
+                height: "71px",
+                padding: "8px",
+                margin: "0 24px 12px",
                 backgroundColor: "#EBECEE",
                 display: "flex",
                 flexDirection: "column",
@@ -264,9 +260,9 @@ const MyDialog = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  height: "100%",
-                  padding: "8px",
-                  gap: "35px",
+                  // height: "100%",
+                  // padding: "8px",
+                  gap: "20px",
                 }}
               >
                 <input
@@ -305,7 +301,7 @@ const MyDialog = () => {
                         cursor: "pointer",
                         fontSize: "20px",
                         color: "#000",
-                        marginRight: "14px",
+                        marginRight: "6px",
                         borderRadius: "4px",
                       }}
                     >
@@ -322,13 +318,13 @@ const MyDialog = () => {
                         cursor: "pointer",
                         fontSize: "20px",
                         color: "#000",
-                        marginRight: "14px",
+                        marginRight: "6px",
                       }}
                     >
                       <Image
                         src="/assets/magic.svg"
-                        width={15}
-                        height={15}
+                        width={12}
+                        height={12}
                         alt="Magic Icon"
                       />
                     </Button>
@@ -337,13 +333,13 @@ const MyDialog = () => {
                         border: "none",
                         cursor: "pointer",
                         color: "#000",
-                        marginRight: "14px",
+                        marginRight: "6px",
                       }}
                     >
                       <Image
                         src="/assets/Link.svg"
-                        width={15}
-                        height={15}
+                        width={9}
+                        height={9}
                         alt="Link Icon"
                       />
                     </Button>
@@ -355,7 +351,7 @@ const MyDialog = () => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        padding: "10px",
+                        padding: "7px",
                         borderRadius: "8px",
                         background: "#323232",
                         color: "#fff",
@@ -381,8 +377,8 @@ const MyDialog = () => {
                       </span>
                       <Image
                         src="/assets/ChevronCircleDown.svg"
-                        width={10}
-                        height={5}
+                        width={7}
+                        height={3}
                         alt="Chevron Circle Down"
                       />
                     </Button>

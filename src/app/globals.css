@@ -10,11 +10,11 @@
 /* Dialog styles */
 .dialog-content {
   position: fixed;
-  top: 60px;
-  bottom: 90px;
-  right: 105px;
+  top: 112px;
+  bottom: 93px;
+  right: 99px;
   width: 537px;
-  height: 80vh;
+  height: 695px;
   background: #f4f6f7;
   border-radius: 24px;
   display: flex;
